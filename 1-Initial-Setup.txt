@@ -1,0 +1,21 @@
+Factory reset Cloud Key:
+  sudo ubnt-systool reset2defaults
+  Or use web browser to go to IP (fallback IP: 192.168.1.30) of Cloud Key - Console Settings - Factory Reset
+  Or reset from Emergency Recovery UI
+    Power off device
+    Hold down reset button then power on device
+    Keep reset button help for about 10 seconds, until you see recovery LED pattern (blue - off - white)
+  Use web browser to go to IP (fallback IP: 192.168.1.30) of Cloud Key
+    Click on RESET TO FACTORY DEFAULTS then reboot
+Use web browser to go to IP of Cloud Key:
+  Setup
+SSH to IP of Cloud Key:
+  U: root
+  P: Simple1Easy2
+  sudo apt -y install nano
+  sudo nano /etc/apt/sources.list.d/ubiquiti.list
+    Comment out sources
+  sudo apt update && sudo apt -y upgrade
+  Remove UniFi apps:
+    sudo apt -y --purge autoremove ubnt-archive-keyring ubnt-binmecpp ubnt-systemhub ubnt-ucp4cpp ubnt-unifi-setup ubnt-zram-swap unifi-assets-uckp ck-splash uck-tools ck-ui
+  sudo reboot
