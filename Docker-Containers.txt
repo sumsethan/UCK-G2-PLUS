@@ -1,0 +1,64 @@
+docker exec -it <Container Name> /bin/bash
+
+docker volume create Portainer-Data
+docker run -d -p 8000:8000 -p 9443:9443 --network=host --name Portainer1 --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v Portainer-Data:/data portainer/portainer-ce:2.21.1
+
+docker run -d --name=Code-Server --hostname=Code-Docker --network=host -e PUID=1000 -e PGID=1000 -e TZ=America/Chicago -e PASSWORD=Simple1Easy -e SUDO_PASSWORD=Simple1Easy -e DEFAULT_WORKSPACE=/config/workspace -v Code-Server-Config:/config --restart=unless-stopped lscr.io/linuxserver/code-server:latest
+  Web UI: http://<IP>:8443
+
+docker run -d --name=FoldingAtHome --hostname=FAH-Docker --network=host -e PUID=1000 -e PGID=1000 -e TZ=America/Chicago -e ACCOUNT_TOKEN=82JuD82Js2zzws2zpvl5IpvlKJiC6KJi1g4jp1g4tH0 -e MACHINE_NAME=FoldingAtHome-Docker -v FoldingAtHome-Config:/config --restart=unless-stopped lscr.io/linuxserver/foldingathome:latest
+  Web UI: http://<IP>:7396
+
+docker run -d --name=Web-Term --hostname=Web-Term-Docker --network=host raonigabriel/web-terminal:latest
+  Web UI: http://<IP>:7681
+  echo "https://dl-cdn.alpinelinux.org/alpine/v3.13/main
+https://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories
+
+docker run -d --name=Plex --hostname=Plex-Docker --network=host -e PUID=1000 -e PGID=1000 -e TZ=America/Chicago -e VERSION=docker -e LD_LIBRARY_PATH=/usr/lib/plexmediaserver -v Plex-Config:/config -v Plex-Transcode:/transcode -v Plex-TV:/tv -v Plex-Movies:/movies --restart unless-stopped lscr.io/linuxserver/plex:latest
+  Web UI: http://<IP>:32400/web
+  sudo chmod -R a+rwx /volume1/docker/volumes/Plex-Movies/_data/
+  sudo chmod -R a+rwx /volume1/docker/volumes/Plex-TV/_data/
+  sudo wget -O /volume1/docker/volumes/Plex-Movies/_data/<File Name> <URL>
+  sudo wget -O /volume1/docker/volumes/Plex-TV/_data/<File Name> <URL>
+  docker exec Plex /usr/lib/plexmediaserver/Plex\ Media\ Scanner -h
+
+docker run -d --name=Home-Assistant --hostname=HA-Docker --network=host -e PUID=1000 -e PGID=1000 -e TZ=America/Chicago --cap-add=NET_ADMIN --cap-add=NET_RAW -v /var/run/dbus:/var/run/dbus:ro -v Home-Assistant-Config:/config --restart unless-stopped lscr.io/linuxserver/homeassistant:latest
+Web UI: http://<IP>:8123
+
+docker run -d --name=Ubooquity --hostname=Ubooquity-Docker --network=host -e PUID=1000 -e PGID=1000 -e TZ=America/Chicago -e MAXMEM=512 -v Ubooquity-Config:/config -v Ubooquity-Books:/books -v Ubooquity-Comics:/comics -v Ubooquity-Files:/files --restart unless-stopped lscr.io/linuxserver/ubooquity:latest
+Web UI: http://<IP>:2202/ubooquity
+Web UI: http://<IP>2203/ubooquity/admin
+
+Possible port conflicts:
+
+docker run -d --name=EmulatorJS --network=host -e PUID=1000 -e PGID=1000 -e TZ=America/Chicago -p 3000:3000 -p 80:80 -v EmulatorJS-Config:/config -v EmulatorJS-Data:/data --restart unless-stopped lscr.io/linuxserver/emulatorjs:latest
+
+docker run -d -it --name=Debian --network=host --shm-size=512m -p 6901:6901 -e VNC_PW=Simple1Easy kasmweb/core-debian-bullseye:1.14.0
+Web UI: https://<IP>:6901
+Web UI U: kasm_user
+docker exec -itu 0 Debian bash
+sudo passwd kasm-user
+sudo usermod -aG sudo kasm-user
+
+docker run -d -t --name=Alpine --network=host -e TZ=America/Chicago -e LANG=en_US.UTF-8 -e LANGUAGE=en_US.UTF-8 -e LC_ALL=en_US.UTF-8 -e RUN_USER_NAME=alpine-admin -e RUN_USER_UID=1000 -e RUN_USER_GID=100 -e VNC_PASSWD=Simple1Easy -e VNC_DESKTOP_NAME=Alpine -e VNC_DESKTOP_GEOMETRY=1024x768 -e VNC_DESKTOP_DEPTH=16 forumi0721/alpine-desktop:aarch64
+  URL: vnc://localhost:5900
+  Default user name : forumi0721/passwd
+
+Wireshark
+  registry.gitlab.com/wireshark/wireshark-containers/debian-stable-dev:latest
+  https://hub.docker.com/r/linuxserver/wireshark
+
+BOINC
+
+FreeCAD
+
+UniFi Network Application
+
+KiCad
+
+LibreOffice
+
+Kali
+
+https://hub.docker.com/r/weejewel/wg-easy
+https://github.com/wg-easy/wg-easy
