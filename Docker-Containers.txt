@@ -29,6 +29,7 @@ docker run -d --name=Ubooquity --hostname=Ubooquity-Docker --network=host -e PUI
 Web UI: http://<IP>:2202/ubooquity
 Web UI: http://<IP>2203/ubooquity/admin
 
+
 Possible port conflicts:
 
 docker run -d --name=EmulatorJS --network=host -e PUID=1000 -e PGID=1000 -e TZ=America/Chicago -p 3000:3000 -p 80:80 -v EmulatorJS-Config:/config -v EmulatorJS-Data:/data --restart unless-stopped lscr.io/linuxserver/emulatorjs:latest
@@ -60,5 +61,5 @@ LibreOffice
 
 Kali
 
-https://hub.docker.com/r/weejewel/wg-easy
-https://github.com/wg-easy/wg-easy
+(https://hub.docker.com/r/weejewel/wg-easy)
+(https://github.com/wg-easy/wg-easy)
