@@ -1,0 +1,20 @@
+/sys/class/power_supply/battery/
+cat /sys/class/power_supply/battery/capacity
+cat /sys/class/power_supply/battery/status
+cat /sys/class/power_supply/battery/uevent
+cat /sys/class/power_supply/battery/temp
+cat /sys/class/power_supply/battery/voltage_max
+grep POWER_SUPPLY_CAPACITY /sys/class/power_supply/battery/uevent
+
+upower -i $(upower -e | grep -i BAT)
+
+upower -i $(upower -e | grep '/sys/class/power_supply/battery/') | grep --color=never -E "state|to\ full|to\ empty|percentage"
+
+upower -i $(upower -e | grep '/sys/class/power_supply/ext_battery/') | grep --color=never -E "state|to\ full|to\ empty|percentage"
+
+/org/freedesktop/UPower/devices/battery_battery
+/org/freedesktop/UPower/devices/battery_ext_battery
+/org/freedesktop/UPower/devices/battery_typec
+/org/freedesktop/UPower/devices/DisplayDevice
+
+upower -i /org/freedesktop/UPower/devices/DisplayDevice
