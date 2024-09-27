@@ -1,0 +1,57 @@
+Drive speed tests (https://www.baeldung.com/linux/disk-performance-test):
+  List drives:
+    sudo lsblk
+  Install iozone3:
+    sudo apt -y install iozone3
+  Internal 32 GB eMMC flash:
+    mmcblk0 - 29.1 GB
+    mmcblk0p47 - /data - 19.1 GB
+    mmcblk0p46 - /mnt/.rwfs - 6 GB
+    sudo iozone -t1 -i0 -i2 -r1k -s1g /tmp
+      Read: 488 mb/s
+      Write: 24 mb/s
+  Internal 1 TB SATA HDD:
+    sda - 931.5 GB
+    sda5 - md3 /volume1 - 923.4 GB
+    sudo iozone -t1 -i0 -i2 -r1k -s1g /volume1/test
+      Read: 501 mb/s
+      Write: 25 mb/s
+  External USB-C:
+    (https://www.securecharlotte.com/2020/08/using-external-usb-drive-with-ubiquiti.html)
+    (https://www.digitalocean.com/community/tutorials/create-a-partition-in-linux)
+    sudo mkdir /media/usb-drive
+    sudo mount /dev/sdb1 /media/usb-drive
+    sudo iozone -t1 -i0 -i2 -r1k -s1g /media/usb-drive
+      Read: 512 mb/s
+      Write: 25 mb/s
+
+sudo apt -y install hdparm
+Internal 1 TB SATA HDD:
+  sudo hdparm -tT /dev/sda
+    Cached reads: 1144 MB/s
+    Buffered reads: 106 MB/s
+  sudo dd if=/dev/md3 of=/volume1/test.img bs=1G count=1 oflag=direct
+    Write: 76.4 MB/s
+  sudo rm /volume1/test.img
+External USB-C:
+  (https://www.securecharlotte.com/2020/08/using-external-usb-drive-with-ubiquiti.html)
+  (https://www.digitalocean.com/community/tutorials/create-a-partition-in-linux)
+  sudo mkdir /media/usb-drive
+  sudo mount /dev/sdb1 /media/usb-drive
+  sudo hdparm -tT /dev/sdb
+    Cached reads: 1052 MB/s
+    Buffered reads: 26 MB/s
+  sudo dd if=/dev/sdb1 of=/media/usb-drive/test.img bs=1G count=1 oflag=direct
+    Write: 13 MB/s
+  sudo rm /media/usb-drive/test.img
+Internal 32 GB eMMC flash:
+  sudo hdparm -tT /dev/mmcblk0
+    Cached reads: 1130 MB/s
+    Buffered reads: 294 MB/s
+  sudo dd if=/dev/mmcblk0p47 of=/data/test.img bs=1G count=1 oflag=direct
+    Write: 80 MB/s
+  sudo rm /data/test.img
+
+Unmount:
+  sudo umount -f /media/usb-drive
+  sudo umount -f /dev/sdc1
