@@ -19,5 +19,5 @@ SSH to IP of Cloud Key:
   Remove UniFi apps:
     sudo apt -y --purge autoremove ubnt-archive-keyring ubnt-binmecpp ubnt-systemhub ubnt-ucp4cpp ubnt-unifi-setup ubnt-zram-swap unifi-assets-uckp ck-splash uck-tools ck-ui
 Replace motd:
-  https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/motd
+  sudo wget -O /etc/motd https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/motd
 sudo reboot
