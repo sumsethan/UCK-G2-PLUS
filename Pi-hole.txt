@@ -9,6 +9,7 @@ sudo service lighttpd restart
 Port 53 already in use
   sudo lsof -i -P -n | grep LISTEN
   sudo nano /etc/systemd/resolved.conf
+    DNSStubListener=no
   sudo reboot
   sudo service systemd-resolved restart
 
