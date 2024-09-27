@@ -5,8 +5,6 @@ sudo nano /etc/lighttpd/lighttpd.conf
   Change: server.port = 80
   To: server.port = 8080
 sudo service lighttpd restart
-WebUI:
-  http://IPAddress:8080/admin
 
 Port 53 already in use
   sudo lsof -i -P -n | grep LISTEN
@@ -14,8 +12,9 @@ Port 53 already in use
   sudo reboot
   sudo service systemd-resolved restart
 
+WebUI:
+  http://IPAddress:8080/admin
+
 Block lists:
   https://firebog.net/
   https://github.com/hagezi/dns-blocklists
-
-YjjDSIuT
