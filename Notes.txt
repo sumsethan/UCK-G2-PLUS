@@ -1,0 +1,27 @@
+Model: UCK-G2-PLUS
+Dimensions: 131.16 x 27.10 x 134.20 mm (5.16 x 1.07 x 5.28")
+Weight: 582 g (1.28 lb)
+Enclosure: Anodized Aluminum
+Management Interface: UniFi Management Portal; UniFi SDN; UniFi Protect
+Hard Drive Capacity: 1 TB 2.5" SATA HDD (user-upgradeable*)
+Device Capacity:
+  UniFi Protect Mode
+    Up to 20 G3 Cameras
+    Up to 10 G4 Cameras
+  UniFi SDN + Protect
+    Up to 15 UniFi Cameras and 50 UniFi Devices
+    7 G4 Cameras
+Processor: Octa-core Arm Cortex-A53 (Qualcomm APQ8053) (8) @ 652MHz-2016MHz
+RAM: 3 GB
+eMMC Memory: 32 GB
+Networking Interface: (1) 10/100/1000 Ethernet Port
+Buttons: (1) Power; (1) Reset
+LEDs: (1) Power, White/Blue
+Power Method:
+  Standard 802.3af PoE
+  Quick Charge 2.0/3.0 Power Adapter (9VDC, 2A)
+Supported Voltage Range: Standard 802.3af PoE or 9VDC, 2A
+Max. Power Consumption: 12.95W (PoE); USB-C Power
+Operating Temperature: 0 to 35° C (32 to 95° F)
+Operating Humidity: 20 to 80% Noncondensing
+Certifications: CE, FCC, IC
