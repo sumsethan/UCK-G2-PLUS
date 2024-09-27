@@ -1,0 +1,6 @@
+(https://evodify.com/change-docker-storage-location)
+
+sudo mkdir -p /volume1/docker
+sudo nano /etc/docker/daemon.json
+  {"data-root": "/volume1/docker"}
+sudo systemctl restart docker
