@@ -5,6 +5,7 @@
 #Factory reset Cloud Key: sudo ubnt-systool reset2defaults
 #Default SSH user: root
 #Default SSH password: ubnt
-#Download script: sudo wget https://raw.githubusercontent.com/meokgo/UC-CK/main/1-Combined-Upgrade.sh
-#Make script executable: sudo chmod +x 1-Combined-Upgrade.sh
-#Run script: sudo ./1-Combined-Upgrade.sh
+#Download script: sudo https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/1-Upgrade.sh
+#Make script executable: sudo chmod +x 1-Upgrade.sh
+#Run script: sudo ./1-Upgrade.sh
+
