@@ -8,8 +8,8 @@
  $$P      d$'     ,    $$P    OS: Debian Linux 11 (Bullseye) aarch64 (arm64)
  $$:      $$.   -    ,d$$'    Kernel: Linux 3.18.44-ui-qcom
  $$;      Y$b._   _,d$P'      CPU: Cortex-A53 (8) @ 652MHz-2016MHz
- Y$$.    `.`"Y$$$$P"'         Memory: 2.91 GiB
- `$$b      "-.__              Local Disk: 19 GiB
+ Y$$.    `.`"Y$$$$P"'         Memory: 3 GiB
+ `$$b      "-.__              Local Disk: 32 GiB
   `Y$$
    `Y$$.
      `$$b.
