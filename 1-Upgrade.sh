@@ -168,7 +168,7 @@ exit 0' >> /etc/rc.local
   while : ; do
     read -p "$(echo '\033[0;106m'"\033[30mRun 2-Device-Config.sh (set static IP, hostname, harden SSH, etc.)? (y/n)\033[0m ")" yn
     case $yn in
-      [yY]) wget https://raw.githubusercontent.com/meokgo/UC-CK/main/2-Device-Config.sh && chmod +x 2-Device-Config.sh && ./2-Device-Config.sh
+      [yY]) wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/2-Device-Config.sh && chmod +x 2-Device-Config.sh && ./2-Device-Config.sh
         break;;
       [nN]) echo '\033[0;35m'"\033[1mNot running config.\033[0m";
         break;;
