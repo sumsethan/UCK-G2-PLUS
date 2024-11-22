@@ -161,26 +161,45 @@ alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 fai
         then
           echo '\n\033[0;35m'"\033[1mAddressFamily inet already exists.\033[0m"
         else
-          sed -i 's|Port 22|Port 22\x0AAddressFamily inet|g' /etc/ssh/sshd_config
+          echo "
+AddressFamily inet" >> /etc/ssh/sshd_config
         fi
-        sed -i 's|ServerKeyBits 1024|ServerKeyBits 2048|g' /etc/ssh/sshd_config
-        sed -i 's|LogLevel INFO|LogLevel VERBOSE|g' /etc/ssh/sshd_config
-        sed -i 's|LoginGraceTime 120|LoginGraceTime 30|g' /etc/ssh/sshd_config
-        sed -i 's|PermitRootLogin yes|PermitRootLogin no|g' /etc/ssh/sshd_config
-        if grep -Fxq "MaxAuthTries 3" /etc/ssh/sshd_config
+        if grep -Fxq "ServerKeyBits 2048" /etc/ssh/sshd_config
         then
-          echo '\033[0;35m'"\033[1mMaxAuthTries 3 already exists.\033[0m"
+          echo '\n\033[0;35m'"\033[1mServerKeyBits 2048 already exists.\033[0m"
         else
-          sed -i 's|StrictModes yes|StrictModes yes\x0AMaxAuthTries 3|g' /etc/ssh/sshd_config
+          echo "
+ServerKeyBits 2048" >> /etc/ssh/sshd_config
         fi
+        if grep -Fxq "LogLevel VERBOSE" /etc/ssh/sshd_config
+        then
+          echo '\n\033[0;35m'"\033[1mLogLevel VERBOSE already exists.\033[0m"
+        else
+          echo "
+LogLevel VERBOSE" >> /etc/ssh/sshd_config
+        fi
+        if grep -Fxq "LoginGraceTime 30" /etc/ssh/sshd_config
+        then
+          echo '\n\033[0;35m'"\033[1mLoginGraceTime 30 already exists.\033[0m"
+        else
+          echo "
+LoginGraceTime 30" >> /etc/ssh/sshd_config
+        fi
+        if grep -Fxq "LoginGraceTime 30" /etc/ssh/sshd_config
+        then
+          echo '\n\033[0;35m'"\033[1mLoginGraceTime 30 already exists.\033[0m"
+        else
+          echo "
+LoginGraceTime 30" >> /etc/ssh/sshd_config
+        fi
+        sed -i 's|MaxAuthTries 6|MaxAuthTries 3|g' /etc/ssh/sshd_config
         if grep -Fxq "MaxSessions 1" /etc/ssh/sshd_config
         then
-          echo '\033[0;35m'"\033[1mMaxSessions 1 already exists.\033[0m"
+          echo '\n\033[0;35m'"\033[1mMaxSessions 1 already exists.\033[0m"
         else
-          sed -i 's|MaxAuthTries 3|MaxAuthTries 3\x0AMaxSessions 1|g' /etc/ssh/sshd_config
+          echo "
+MaxSessions 1" >> /etc/ssh/sshd_config
         fi
-        sed -i 's|X11Forwarding yes|X11Forwarding no|g' /etc/ssh/sshd_config
-        sed -i 's|^X11DisplayOffset 10|#X11DisplayOffset 10|g' /etc/ssh/sshd_config
         if grep -Fxq "AllowTcpForwarding no" /etc/ssh/sshd_config
         then
           echo '\033[0;35m'"\033[1mAllowTcpForwarding no already exists.\033[0m"
@@ -205,6 +224,13 @@ alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 fai
         else
           sed -i 's|UseDNS no|UseDNS no\x0ADenyUsers ubnt root|g' /etc/ssh/sshd_config
         fi
+        if grep -Fxq "Port 22" /etc/ssh/sshd_config
+        then
+          echo '\033[0;35m'"\033[1mPort 22 already exists.\033[0m"
+        else
+          echo "
+Port 22" >> /etc/ssh/sshd_config
+        fi
         SSH_Port=$(cat /etc/ssh/sshd_config | grep "^Port" | sed 's|Port ||g')
         read -p "$(echo '\033[0;106m'"\033[30mEnter new SSH port (leave blank to use current port: $SSH_Port):\033[0m ")" New_Port
         if [ -z "$New_Port" ]; then
@@ -213,7 +239,7 @@ alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 fai
           sed -i "s|Port $SSH_Port|Port $New_Port|g" /etc/ssh/sshd_config
         fi
         echo "#Script logs out idle SSH connections
-if [ "$SSH_CONNECTION" != "" ]; then
+if [ "\$SSH_CONNECTION" != "" ]; then
   TMOUT=900 #15 minutes
   readonly TMOUT
   export TMOUT
