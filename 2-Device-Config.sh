@@ -237,12 +237,6 @@ fi" > /etc/profile.d/ssh-timeout.sh
         else
           sed -i 's|# End of file|root	hard	maxlogins	1\x0A# End of file|g' /etc/security/limits.conf;
         fi
-        if grep -q "ubnt" /etc/security/limits.conf;
-        then
-          echo '\033[0;35m'"\033[1mLogin limit for ubnt already exists.\033[0m";
-        else
-          sed -i 's|# End of file|ubnt	hard	maxlogins	1\x0A# End of file|g' /etc/security/limits.conf;
-        fi
         /etc/init.d/ssh restart
         echo '\033[0;36m'"\033[1mSSH settings updated.\033[0m"
         echo '\033[0;36m'"\033[1mInstalling ufw and creating firewall rule for SSH...\033[0m"
