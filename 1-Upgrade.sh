@@ -131,14 +131,14 @@ alias ls='ls -hAlF --color=auto'" >> /etc/bash.bashrc
 #Create global alias for ssh logs
   echo "
 #Global alias for ssh logs
-alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 failed logins:" && sudo lastb -10'" >> /etc/profile.d/00-alias.sh
+alias sshlog='echo -e '\033[0;36m'"\033[1mLast 10 successful logins:\033[0m" && last -10 && echo -e '\033[0;36m'"\033[1mLast 10 failed logins:\033[0m" && lastb -10'" >> /etc/profile.d/00-alias.sh
   echo "
 #Global alias for ssh logs
-alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 failed logins:" && sudo lastb -10'" >> /etc/bash.bashrc
+alias sshlog='echo -e '\033[0;36m'"\033[1mLast 10 successful logins:\033[0m" && last -10 && echo -e '\033[0;36m'"\033[1mLast 10 failed logins:\033[0m" && lastb -10'" >> /etc/bash.bashrc
 #Create root user alias for ssh logs
   echo "
 #User alias for ssh logs
-alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 failed logins:" && lastb -10'" >> /root/.bashrc
+alias sshlog='echo -e '\033[0;36m'"\033[1mLast 10 successful logins:\033[0m" && last -10 && echo -e '\033[0;36m'"\033[1mLast 10 failed logins:\033[0m" && lastb -10'" >> /root/.bashrc
   source /root/.bashrc
 #Set LED to blue after finished booting
   echo '\033[0;36m'"\033[1m$(date): Updating LED settings...\033[0m"
