@@ -1,11 +1,143 @@
 #!/bin/sh
-#This script will upgrade the factory default state OS from Debian Buster to Debian Bullseye on UniFi Cloud Key Model: UCK-G2-PLUS
+#This script is for UniFi Cloud Key Model: UCK-G2-PLUS
 #This script will disable or remove most UniFi packages, the device will no longer function as a Cloud Key for UniFi devices, but Emergency Recovery UI still works.
-#****It is highly recommended to factory reset the Cloud Key before running script the first time****
-#Factory reset Cloud Key: sudo ubnt-systool reset2defaults
+#+----------------------------------------------------------------------------------------------------+
+#|****It is highly recommended to factory reset the Cloud Key before running script the first time****|
+#|Factory reset Cloud Key: sudo ubnt-systool reset2defaults                                           |
+#|Do initial setup from Web UI                                                                        |
+#|--Proceed Without a UI Account                                                                      |
+#|--Applications - Disable Auto Updates for UniFi OS and Applications and Uninstall Network App       |
+#|--Console Settings - Enable SSH                                                                     |
+#+----------------------------------------------------------------------------------------------------+
 #Default SSH user: root
-#Default SSH password: ubnt
 #Download script: sudo https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/1-Upgrade.sh
 #Make script executable: sudo chmod +x 1-Upgrade.sh
 #Run script: sudo ./1-Upgrade.sh
+(
+#Set timezone to CST
+  echo '\033[0;36m'"\033[1m$(date): Setting timezone to CST...\033[0m"
+  timedatectl set-timezone America/Chicago
+echo "$(date): Script started." >> 1-Upgrade.log
+#Check if script is run as root
+  echo '\033[0;36m'"\033[1mChecking if script is run as root...\033[0m"
+  if ! [ $(id -u) = 0 ]; then
+    echo '\033[0;31m'"\033[1mMust run script as root.\033[0m"
+    exit 1
+  fi
+#Check for valid kernel version
+  echo '\033[0;36m'"\033[1m$(date): Checking kernel version...\033[0m"
+  Kernel_Version=$(uname -r)
+  echo '\033[0;36m'"\033[1mKernel version: $Kernel_Version\033[0m"
+  case $Kernel_Version in
+    3.18.44-ui-qcom ) echo '\033[0;36m'"\033[1mValid kernel.\033[0m";;
+    * ) echo '\033[0;31m'"\033[1mInvalid kernel. Script only works on kernel 3.18.44-ui-qcom.\033[0m"
+      exit 1;;
+  esac
+#Remove postgresql
+  pkill -u postgres
+  rm /var/lib/dpkg/info/postgresql-14.postinst
+  mkdir -p /usr/share/postgresql/9.6/man/man1 /usr/share/postgresql/14/man/man1 /usr/share/postgresql/16/man/man1
+  touch /usr/share/postgresql/9.6/man/man1/psql.1.gz /usr/share/postgresql/14/man/man1/psql.1.gz /usr/share/postgresql/16/man/man1/psql.1.gz
+  DEBIAN_FRONTEND=noninteractive apt -y --purge remove postgresql\* -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+  rm -r /etc/postgresql
+#Remove unnecessary packages
+  DEBIAN_FRONTEND=noninteractive apt -y --purge autoremove libpython2-stdlib python2 python2-minimal ubnt-archive-keyring ubnt-unifi-setup ubnt-systemhub unifi libcups2 libxml2 rfkill bluez nginx -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+  DEBIAN_FRONTEND=noninteractive apt -y purge ~c -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+  DEBIAN_FRONTEND=noninteractive apt -y clean ~c -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+  echo '\033[0;36m'"\033[1m$(date): Removal complete.\033[0m"
+#Start upgrade
+  sed -i 's|deb https://apt.artifacts.ui.com/ bullseye release|#deb https://apt.artifacts.ui.com/ bullseye release|g' /etc/apt/sources.list.d/ubiquiti.list
+  echo '\033[0;36m'"\033[1mDeleting old source list...\033[0m"
+    rm /etc/apt/sources.list
+  echo '\033[0;36m'"\033[1mCreating new source list...\033[0m"
+    echo "deb https://deb.debian.org/debian bullseye main contrib non-free
+deb-src https://deb.debian.org/debian bullseye main contrib non-free
+deb https://security.debian.org/debian-security bullseye-security main contrib non-free
+deb-src https://security.debian.org/debian-security/ bullseye-security main contrib non-free
+deb https://deb.debian.org/debian bullseye-updates main contrib non-free
+deb-src https://deb.debian.org/debian bullseye-updates main contrib non-free
+deb https://deb.debian.org/debian bullseye-backports main contrib non-free
+deb-src https://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list
+  echo '\033[0;36m'"\033[1m$(date): Installing updates...\033[0m"
+    apt update
+    DEBIAN_FRONTEND=noninteractive apt -y upgrade --without-new-pkgs -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+  echo '\033[0;36m'"\033[1m$(date): Updates complete.\033[0m"
+#Update NTP servers
+  echo '\033[0;36m'"\033[1m$(date): Updating NTP servers...\033[0m"
+  sed -i "s|0.ubnt.pool.ntp.org ||g" /etc/systemd/timesyncd.conf
+  sed -i "s|1.ubnt.pool.ntp.org ||g" /etc/systemd/timesyncd.conf
+  sed -i "s|2.ubnt.pool.ntp.org ||g" /etc/systemd/timesyncd.conf
+  sed -i "s|3.ubnt.pool.ntp.org ||g" /etc/systemd/timesyncd.conf
+  systemctl restart systemd-timesyncd
+  timedatectl
+#Update motd
+  echo '\033[0;36m'"\033[1m$(date): Updating motd...\033[0m"
+  wget -O /etc/motd https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/motd
+  echo '#!/bin/sh
+cat /etc/motd
+' > /etc/update-motd.d/10-motd
+  mv /etc/update-motd.d/10-uname /etc/update-motd.d/20-uname
+  sed -i 's|uname -snrvm|uname -nmo|g' /etc/update-motd.d/20-uname
+  echo '#!/bin/sh
+echo "Date: " $(date)
+echo "Logged in users: " $(who)
+echo "Uptime: " $(uptime -p)
+ip -c -f inet addr show eth0 | awk '\''/inet / {print "eth0 IP: " $2}'\''
+ip -c -f inet addr show tailscale0 | awk '\''/inet / {print "tailnet IP: " $2}'\''' > /etc/update-motd.d/30-stats
+  chmod +x /etc/update-motd.d/10-motd /etc/update-motd.d/30-stats
+  sed -i 's|^session    optional     pam_motd.so noupdate|#session    optional     pam_motd.so noupdate|g' /etc/pam.d/sshd
+  #Display motd
+    run-parts /etc/update-motd.d
+#Update color settings from 8 to 256
+  echo '\033[0;36m'"\033[1m$(date): Update color settings from 8 to 256...\033[0m"
+  echo "
+TERM=xterm-256color" >> /etc/bash.bashrc
+#Create global alias for ls to show more detail
+  echo "
+#Global alias for ls to show more detail
+alias ls='ls -hAlF --color=auto'" >> /etc/profile.d/00-alias.sh
+  echo "
+#Global alias for ls to show more detail
+alias ls='ls -hAlF --color=auto'" >> /etc/bash.bashrc
+#Update root user alias for ls to show more detail
+  sed -i "s|alias ls='ls -F --color=auto'|alias ls='ls -hAlF --color=auto'|g" /root/.bashrc
+  source /root/.bashrc
+#Set LED to blue after finished booting
+  echo '\033[0;36m'"\033[1m$(date): Updating LED settings...\033[0m"
+  cp /etc/rc.local /etc/rc.local.bak
+  echo '#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
 
+echo none > /sys/class/leds/blue/trigger
+echo none > /sys/class/leds/white/trigger
+echo 60 > /sys/class/leds/blue/brightness
+
+exit 0' >> /etc/rc.local
+  chmod +x /etc/rc.local
+  systemctl daemon-reload
+  systemctl start rc-local
+echo "$(date): Script finished" >> 1-Upgrade.log
+) 2>&1 | tee -a 1-Upgrade.log
+#Option to reboot device
+  while : ; do
+    read -p "$(echo '\033[0;106m'"\033[30mDevice must be rebooted. Reboot now? (y/n)\033[0m ")" yn
+    case $yn in
+      [yY]) echo '\033[0;32m'"\033[1m$(date): Rebooting in 5 seconds...\033[0m"
+        sleep 5
+        reboot
+        break;;
+      [nN]) echo '\033[0;35m'"\033[1mExiting...\033[0m";
+        exit;;
+      *) echo '\033[0;31m'"\033[1mInvalid response.\033[0m";
+    esac
+  done
