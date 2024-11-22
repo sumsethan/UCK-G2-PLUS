@@ -92,21 +92,6 @@ ip -c -f inet addr show tailscale0 | awk '\''/inet / {print "tailnet IP: " $2}'\
   echo '\033[0;36m'"\033[1m$(date): Update color settings from 8 to 256...\033[0m"
   echo "
 TERM=xterm-256color" >> /etc/bash.bashrc
-#Free port 53 and 5355
-  nano /etc/systemd/resolved.conf
-    DNS=8.8.8.8 1.1.1.1
-    FallbackDNS=8.8.8.8 1.1.1.1
-    DNSStubListener=no
-    LLMNR=0
-  ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-  service systemd-resolved restart
-#Disable ipv6
-  nano /etc/sysctl.conf
-    net.ipv6.conf.all.disable_ipv6 = 1
-    net.ipv6.conf.default.disable_ipv6 = 1
-    net.ipv6.conf.lo.disable_ipv6 = 1
-    net.ipv6.conf.eth0.disable_ipv6 = 1
-  sysctl -p
 #Move /usr /var directories to /data partition
   mv /usr /data/usr
   ln -s /data/usr /usr
