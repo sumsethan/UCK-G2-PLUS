@@ -92,6 +92,33 @@ ip -c -f inet addr show tailscale0 | awk '\''/inet / {print "tailnet IP: " $2}'\
   echo '\033[0;36m'"\033[1m$(date): Update color settings from 8 to 256...\033[0m"
   echo "
 TERM=xterm-256color" >> /etc/bash.bashrc
+#Free port 53 and 5355
+  nano /etc/systemd/resolved.conf
+    DNS=8.8.8.8 1.1.1.1
+    FallbackDNS=8.8.8.8 1.1.1.1
+    DNSStubListener=no
+    LLMNR=0
+  ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+  service systemd-resolved restart
+#Disable ipv6
+  nano /etc/sysctl.conf
+    net.ipv6.conf.all.disable_ipv6 = 1
+    net.ipv6.conf.default.disable_ipv6 = 1
+    net.ipv6.conf.lo.disable_ipv6 = 1
+    net.ipv6.conf.eth0.disable_ipv6 = 1
+  sysctl -p
+#Move /usr /var directories to /data partition
+  mv /usr /data/usr
+  ln -s /data/usr /usr
+  mv /var /data/var
+  ln -s /data/var /var
+#Move /etc/pihole
+  mkdir -p /etc/pihole /data/etc
+  mv /etc/pihole /data/etc
+  ln -s /data/etc/pihole /etc/pihole
+#Update locale
+  sed -i "s|LC_ALL=C|LC_ALL=C.UTF-8|g" /etc/default/locale
+  source ~/.bashrc
 #Create global alias for ls to show more detail
   echo "
 #Global alias for ls to show more detail
@@ -101,6 +128,17 @@ alias ls='ls -hAlF --color=auto'" >> /etc/profile.d/00-alias.sh
 alias ls='ls -hAlF --color=auto'" >> /etc/bash.bashrc
 #Update root user alias for ls to show more detail
   sed -i "s|alias ls='ls -F --color=auto'|alias ls='ls -hAlF --color=auto'|g" /root/.bashrc
+#Create global alias for ssh logs
+  echo "
+#Global alias for ssh logs
+alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 failed logins:" && sudo lastb -10'" >> /etc/profile.d/00-alias.sh
+  echo "
+#Global alias for ssh logs
+alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 failed logins:" && sudo lastb -10'" >> /etc/bash.bashrc
+#Create root user alias for ssh logs
+  echo "
+#User alias for ssh logs
+alias sshlog='echo "Last 10 successful logins:" && last -10 && echo "Last 10 failed logins:" && lastb -10'" >> /root/.bashrc
   source /root/.bashrc
 #Set LED to blue after finished booting
   echo '\033[0;36m'"\033[1m$(date): Updating LED settings...\033[0m"
@@ -126,6 +164,28 @@ exit 0' >> /etc/rc.local
   chmod +x /etc/rc.local
   systemctl daemon-reload
   systemctl start rc-local
+#Option to run 2-Device-Config.sh
+  while : ; do
+    read -p "$(echo '\033[0;106m'"\033[30mRun 2-Device-Config.sh (set static IP, hostname, harden SSH, etc.)? (y/n)\033[0m ")" yn
+    case $yn in
+      [yY]) wget https://raw.githubusercontent.com/meokgo/UC-CK/main/2-Device-Config.sh && chmod +x 2-Device-Config.sh && ./2-Device-Config.sh
+        break;;
+      [nN]) echo '\033[0;35m'"\033[1mNot running config.\033[0m";
+        break;;
+      *) echo '\033[0;31m'"\033[1mInvalid response.\033[0m";
+    esac
+  done
+#Option to install tools using 3-Install-Tools.sh
+  while : ; do
+    read -p "$(echo '\033[0;106m'"\033[30mRun 3-Install-tools.sh (install useful tools like tailscale, ncdu, iperf3, etc.)? (y/n)\033[0m ")" yn
+    case $yn in
+      [yY]) wget https://raw.githubusercontent.com/meokgo/UC-CK/main/3-Install-Tools.sh && chmod +x 3-Install-Tools.sh && ./3-Install-Tools.sh
+        break;;
+      [nN]) echo '\033[0;35m'"\033[1mNot installing tools.\033[0m";
+        break;;
+      *) echo '\033[0;31m'"\033[1mInvalid response.\033[0m";
+    esac
+  done
 echo "$(date): Script finished" >> 1-Upgrade.log
 ) 2>&1 | tee -a 1-Upgrade.log
 #Option to reboot device
