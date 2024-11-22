@@ -243,12 +243,12 @@ fi" > /etc/profile.d/ssh-timeout.sh
         else
           sed -i 's|# End of file|ubnt	hard	maxlogins	1\x0A# End of file|g' /etc/security/limits.conf;
         fi
-      /etc/init.d/ssh restart
-      echo '\033[0;36m'"\033[1mSSH settings updated.\033[0m"
-      echo '\033[0;36m'"\033[1mInstalling ufw and creating firewall rule for SSH...\033[0m"
-      #Add firewall rules for SSH
-        DEBIAN_FRONTEND=noninteractive apt -y install ufw -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-        sed -i 's|IPV6=yes|IPV6=no|g' /etc/default/ufw
+        /etc/init.d/ssh restart
+        echo '\033[0;36m'"\033[1mSSH settings updated.\033[0m"
+        echo '\033[0;36m'"\033[1mInstalling ufw and creating firewall rule for SSH...\033[0m"
+        #Add firewall rules for SSH
+          DEBIAN_FRONTEND=noninteractive apt -y install ufw -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+          sed -i 's|IPV6=yes|IPV6=no|g' /etc/default/ufw
         #Set UFW's default policies
           ufw default deny incoming
           ufw default allow outgoing
@@ -258,37 +258,37 @@ fi" > /etc/profile.d/ssh-timeout.sh
         #Get subnet from eth0 and pass to variable
           LAN_IP=$(ip -f inet addr show eth0 | awk '/inet / {print $2}')
           ufw allow from $LAN_IP to any port $SSH_PortA proto tcp comment 'SSH Port from LAN'
-      ufw --force enable
-      ufw status verbose
-      ufw reload
-      break;;
-    [nN]) echo '\n\033[0;35m'"\033[1mNot hardening SSH settings.\033[0m"
-      break;;
-    *) echo '\n\033[0;31m'"\033[1mInvalid response.\033[0m";;
-  esac
-done
+        ufw --force enable
+        ufw status verbose
+        ufw reload
+        break;;
+      [nN]) echo '\n\033[0;35m'"\033[1mNot hardening SSH settings.\033[0m"
+        break;;
+      *) echo '\n\033[0;31m'"\033[1mInvalid response.\033[0m";;
+    esac
+  done
 ) 2>&1 | tee -a 2-Device-Config.log
 #Option to enable MFA
-while : ; do
-  read  -p "$(echo '\033[0;106m'"\033[30mSetup Google Authenticator? (y/n)\033[0m "| tee -a 2-Device-Config.log)" yn
-  case $yn in
-    [yY]) DEBIAN_FRONTEND=noninteractive apt install -y libpam-google-authenticator -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" | tee -a 2-Device-Config.log
-      sed -i 's|UsePAM no|UsePAM yes|g' /etc/ssh/sshd_config | tee -a 2-Device-Config.log
-      sed -i 's|ChallengeResponseAuthentication no|ChallengeResponseAuthentication yes|g' /etc/ssh/sshd_config | tee -a 2-Device-Config.log
-      if grep -Fxq "#MFA via Google Authenticator" /etc/pam.d/sshd
-      then
-        echo '\033[0;35m'"\033[1m#MFA via Google Authenticator already exists.\033[0m" | tee -a 2-Device-Config.log
-      else
-        echo "
+  while : ; do
+    read  -p "$(echo '\033[0;106m'"\033[30mSetup Google Authenticator? (y/n)\033[0m "| tee -a 2-Device-Config.log)" yn
+    case $yn in
+      [yY]) DEBIAN_FRONTEND=noninteractive apt install -y libpam-google-authenticator -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" | tee -a 2-Device-Config.log
+        sed -i 's|UsePAM no|UsePAM yes|g' /etc/ssh/sshd_config | tee -a 2-Device-Config.log
+        sed -i 's|ChallengeResponseAuthentication no|ChallengeResponseAuthentication yes|g' /etc/ssh/sshd_config | tee -a 2-Device-Config.log
+        if grep -Fxq "#MFA via Google Authenticator" /etc/pam.d/sshd
+        then
+          echo '\033[0;35m'"\033[1m#MFA via Google Authenticator already exists.\033[0m" | tee -a 2-Device-Config.log
+        else
+          echo "
 #MFA via Google Authenticator
 auth   required   pam_google_authenticator.so" >> /etc/pam.d/sshd
-      fi
-      systemctl restart ssh | tee -a 2-Device-Config.log
-      setup_users
-      break;;
-    [nN]) echo '\033[0;35m'"\033[1mNot setting up MFA.\033[0m" | tee -a 2-Device-Config.log
-      break;;
-    *) echo '\033[0;31m'"\033[1mInvalid response.\033[0m" | tee -a 2-Device-Config.log;;
-  esac
-done
+        fi
+        systemctl restart ssh | tee -a 2-Device-Config.log
+        setup_users
+        break;;
+      [nN]) echo '\033[0;35m'"\033[1mNot setting up MFA.\033[0m" | tee -a 2-Device-Config.log
+        break;;
+      *) echo '\033[0;31m'"\033[1mInvalid response.\033[0m" | tee -a 2-Device-Config.log;;
+    esac
+  done
 echo "$(date): Script finished" >> 2-Device-Config.log
