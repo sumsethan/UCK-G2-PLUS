@@ -88,6 +88,10 @@ ip -c -f inet addr show tailscale0 | awk '\''/inet / {print "tailnet IP: " $2}'\
   sed -i 's|^session    optional     pam_motd.so noupdate|#session    optional     pam_motd.so noupdate|g' /etc/pam.d/sshd
   #Display motd
     run-parts /etc/update-motd.d
+#Update color settings from 8 to 256
+  echo '\033[0;36m'"\033[1m$(date): Update color settings from 8 to 256...\033[0m"
+  echo "
+TERM=xterm-256color" >> /etc/bash.bashrc
 #Create global alias for ls to show more detail
   echo "
 #Global alias for ls to show more detail
@@ -133,6 +137,18 @@ exit 0' >> /etc/rc.local
   chmod +x /etc/rc.local
   systemctl daemon-reload
   systemctl start rc-local
+#Move /usr /var directories to /data partition
+  mv /usr /data/usr
+  ln -s /data/usr /usr
+  mv /var /data/var
+  ln -s /data/var /var
+#Move /etc/pihole
+  mkdir -p /etc/pihole /data/etc
+  mv /etc/pihole /data/etc
+  ln -s /data/etc/pihole /etc/pihole
+#Update locale
+  sed -i "s|LC_ALL=C|LC_ALL=C.UTF-8|g" /etc/default/locale
+  source ~/.bashrc
 #Option to run 2-Device-Config.sh
   while : ; do
     read -p "$(echo '\033[0;106m'"\033[30mRun 2-Device-Config.sh (set static IP, hostname, harden SSH, etc.)? (y/n)\033[0m ")" yn
