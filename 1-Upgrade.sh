@@ -100,6 +100,10 @@ ip -c -f inet addr show tailscale0 | awk '\''/inet / {print "tailnet IP: " $2}'\
   ln -s /data/var/lib/apt /var/lib/apt
   mv /var/lib/dpkg /data/var/lib/dpkg
   ln -s /data/var/lib/dpkg /var/lib/dpkg
+#Move /etc/pihole using symlink
+  mkdir -p /etc/pihole /data/etc
+  mv /etc/pihole /data/etc
+  ln -s /data/etc/pihole /etc/pihole
 #Create global alias for ls to show more detail
   echo "
 #Global alias for ls to show more detail
