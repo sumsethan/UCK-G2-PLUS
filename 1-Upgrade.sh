@@ -89,6 +89,17 @@ ip -c -f inet addr show tailscale0 | awk '\''/inet / {print "tailnet IP: " $2}'\
   sed -i 's|^session    optional     pam_motd.so noupdate|#session    optional     pam_motd.so noupdate|g' /etc/pam.d/sshd
   #Display motd
     run-parts /etc/update-motd.d
+#Move storage using symlink
+  echo '\033[0;36m'"\033[1m$(date): Moving cache and temp storage using symlink...\033[0m"
+  mkdir -p /data/var/lib
+  mv /var/cache /data/var/cache
+  ln -s /data/var/cache /var/cache
+  mv /var/log /data/var/log
+  ln -s /data/var/log /var/log
+  mv /var/lib/apt /data/var/lib/apt
+  ln -s /data/var/lib/apt /var/lib/apt
+  mv /var/lib/dpkg /data/var/lib/dpkg
+  ln -s /data/var/lib/dpkg /var/lib/dpkg
 #Create global alias for ls to show more detail
   echo "
 #Global alias for ls to show more detail
