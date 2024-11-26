@@ -98,7 +98,7 @@ alias ls='ls -hAlF --color=auto'" >> /etc/bash.bashrc
 #Create global alias for ssh logs
   echo "
 #Global alias for ssh logs
-alias sshlog='echo -e '\033[0;36m'"\033[1mLast 10 successful logins:\033[0m" && last -10 && echo -e '\033[0;36m'"\033[1mLast 10 failed logins:\033[0m" && lastb -10'" >> /etc/bash.bashrc
+alias sshlog='echo "Last 10 successful logins:" && last -10 && echo Last 10 failed logins:" && lastb -10'" >> /etc/bash.bashrc
 #Update color settings from 8 to 256
   echo '\033[0;36m'"\033[1m$(date): Update color settings from 8 to 256...\033[0m"
   echo "
