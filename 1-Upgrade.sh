@@ -41,7 +41,7 @@ echo "$(date): Script started." >> 1-Upgrade.log
   DEBIAN_FRONTEND=noninteractive apt -y --purge remove postgresql\* -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
   rm -r /etc/postgresql
 #Remove unnecessary packages
-  DEBIAN_FRONTEND=noninteractive apt -y --purge autoremove libpython2-stdlib python2 python2-minimal ubnt-archive-keyring ubnt-unifi-setup ubnt-systemhub unifi libcups2 libxml2 rfkill bluez nginx -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+  DEBIAN_FRONTEND=noninteractive apt -y --purge autoremove libpython2-stdlib python2 python2-minimal ubnt-archive-keyring ubnt-unifi-setup ubnt-systemhub unifi libcups2 libxml2 rfkill bluez nginx node* mongo* -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
   DEBIAN_FRONTEND=noninteractive apt -y purge ~c -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
   DEBIAN_FRONTEND=noninteractive apt -y clean ~c -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
   echo '\033[0;36m'"\033[1m$(date): Removal complete.\033[0m"
