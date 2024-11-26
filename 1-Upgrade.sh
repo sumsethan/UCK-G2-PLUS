@@ -70,6 +70,10 @@ deb-src https://deb.debian.org/debian bullseye-backports main contrib non-free" 
   sed -i "s|3.ubnt.pool.ntp.org ||g" /etc/systemd/timesyncd.conf
   systemctl restart systemd-timesyncd
   timedatectl
+#Update locale
+  cp /etc/default/locale /etc/default/locale.bak
+  sed -i "s|LC_ALL=C|LC_ALL=C.UTF-8|g" /etc/default/locale
+  source ~/.bashrc
 #Update motd
   echo '\033[0;36m'"\033[1m$(date): Updating motd...\033[0m"
   wget -O /etc/motd https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/motd
