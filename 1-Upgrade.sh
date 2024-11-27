@@ -121,7 +121,8 @@ LC_ALL=C.UTF-8" > /etc/default/locale
   echo '#!/bin/sh
 cat /etc/motd' > /etc/update-motd.d/10-motd
   mv /etc/update-motd.d/10-uname /etc/update-motd.d/20-uname
-  sed -i 's|uname -snrvm|uname -nmo|g' /etc/update-motd.d/20-uname
+  echo'#!/bin/sh
+uname -nmo' > /etc/update-motd.d/20-uname
   echo '#!/bin/sh
 echo "Date: " $(date)
 echo "Logged in users: " $(who)
