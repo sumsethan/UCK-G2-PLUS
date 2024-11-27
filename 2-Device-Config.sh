@@ -61,7 +61,7 @@ Name = eth0
 [Route]
 #Gateway = 192.168.1.1
 [Network]
-DHCP = yes
+DHCP = ipv4
 #DNS = 8.8.4.4 8.8.8.8" > /etc/systemd/network/eth0.network
         read -p "$(echo '\n\033[0;106m'"\033[30mEnter static IP in 0.0.0.0/24 format (leave blank to keep DHCP):\033[0m ")" New_IP
           if [ -z "$New_IP" ]; then
@@ -70,7 +70,7 @@ DHCP = yes
           else
             sed -i "s|192.168.1.100/24|$New_IP|g" /etc/systemd/network/eth0.network
             sed -i 's|#Address|Address|g' /etc/systemd/network/eth0.network
-            sed -i 's|DHCP=yes|DHCP=no|g' /etc/systemd/network/eth0.network
+            sed -i 's|DHCP = ipv4|DHCP = no|g' /etc/systemd/network/eth0.network
             read -p "$(echo '\n\033[0;106m'"\033[30mEnter static gateway in 0.0.0.0 format (leave blank to keep DHCP):\033[0m ")" New_Gateway
               if [ -z "$New_Gateway" ]; then
                 echo '\033[0;35m'"\033[1mNot configuring static IP, leaving as DHCP.\033[0m"
