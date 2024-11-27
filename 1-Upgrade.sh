@@ -197,7 +197,7 @@ exit 0' >> /etc/rc.local
   while : ; do
     read -p "$(echo '\033[0;106m'"\033[30mRun 3-Install-tools.sh (install useful tools like tailscale, ncdu, iperf3, etc.)? (y/n)\033[0m ")" yn
     case $yn in
-      [yY]) wget https://raw.githubusercontent.com/meokgo/UC-CK/main/3-Install-Tools.sh && chmod +x 3-Install-Tools.sh && ./3-Install-Tools.sh
+      [yY]) wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/3-Install-Tools.sh && chmod +x 3-Install-Tools.sh && ./3-Install-Tools.sh
         break;;
       [nN]) echo '\033[0;35m'"\033[1mNot installing tools.\033[0m";
         break;;
