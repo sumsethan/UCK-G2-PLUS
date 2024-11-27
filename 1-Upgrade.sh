@@ -112,7 +112,7 @@ net.ipv6.conf.default.disable_ipv6" = 1 >> /etc/sysctl.conf
   source ~/.bashrc
 #Update motd
   echo '\033[0;36m'"\033[1m$(date): Updating motd...\033[0m"
-  wget -O /etc/motd https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/motd
+  wget -O /etc/motd https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/etc/motd
   echo '#!/bin/sh
 cat /etc/motd
 ' > /etc/update-motd.d/10-motd
