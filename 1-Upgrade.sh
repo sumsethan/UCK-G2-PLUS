@@ -112,7 +112,8 @@ net.ipv6.conf.default.disable_ipv6" = 1 >> /etc/sysctl.conf
   sysctl -p
 #Update locale
   cp /etc/default/locale /etc/default/locale.bak
-  sed -i "s|LC_ALL=C|LC_ALL=C.UTF-8|g" /etc/default/locale
+  echo "LANG=C
+LC_ALL=C.UTF-8" > /etc/default/locale
   source ~/.bashrc
 #Update motd
   echo '\033[0;36m'"\033[1m$(date): Updating motd...\033[0m"
