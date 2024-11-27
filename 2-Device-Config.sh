@@ -227,14 +227,13 @@ Compression yes" >> /etc/ssh/sshd_config
           echo "
 DenyUsers root" >> /etc/ssh/sshd_config
         fi
-        if grep -Fxq "Port 22" /etc/ssh/sshd_config
-        then
-          echo '\033[0;35m'"\033[1mPort 22 already exists.\033[0m"
-        else
+        SSH_Port=$(cat /etc/ssh/sshd_config | grep "^Port" | sed 's|Port ||g')
+        if [ -z "$SSH_Port" ]; then
           echo "
 Port 22" >> /etc/ssh/sshd_config
+        else
+          echo '\033[0;35m'"\033[1mPort $SSH_Port already exists.\033[0m"
         fi
-        SSH_Port=$(cat /etc/ssh/sshd_config | grep "^Port" | sed 's|Port ||g')
         read -p "$(echo '\033[0;106m'"\033[30mEnter new SSH port (leave blank to use current port: $SSH_Port):\033[0m ")" New_Port
         if [ -z "$New_Port" ]; then
           echo '\n\033[0;35m'"\033[1mNothing entered, SSH port: $SSH_Port.\033[0m"
