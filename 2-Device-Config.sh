@@ -61,7 +61,7 @@ Name = eth0
 [Route]
 #Gateway = 192.168.1.1
 [Network]
-DHCP=yes
+DHCP = yes
 #DNS = 8.8.4.4 8.8.8.8" > /etc/systemd/network/eth0.network
         read -p "$(echo '\n\033[0;106m'"\033[30mEnter static IP in 0.0.0.0/24 format (leave blank to keep DHCP):\033[0m ")" New_IP
           if [ -z "$New_IP" ]; then
