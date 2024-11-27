@@ -119,8 +119,7 @@ LC_ALL=C.UTF-8" > /etc/default/locale
   echo '\033[0;36m'"\033[1m$(date): Updating motd...\033[0m"
   wget -O /etc/motd https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/etc/motd
   echo '#!/bin/sh
-cat /etc/motd
-' > /etc/update-motd.d/10-motd
+cat /etc/motd' > /etc/update-motd.d/10-motd
   mv /etc/update-motd.d/10-uname /etc/update-motd.d/20-uname
   sed -i 's|uname -snrvm|uname -nmo|g' /etc/update-motd.d/20-uname
   echo '#!/bin/sh
