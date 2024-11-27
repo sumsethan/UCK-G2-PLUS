@@ -102,7 +102,11 @@ LLMNR = no
 #DNS = 8.8.4.4 8.8.8.8" > /etc/systemd/network/eth0.network
   systemctl restart systemd-networkd
 #Disable ipv6
-  echo "#Disable ipv6 for all interfaces
+  if grep -Fxq "#Disable ipv6 for all interfaces" /etc/sysctl.conf
+  then
+    echo '\n\033[0;35m'"\033[1mipv6 is already disabled.\033[0m"
+  else
+    echo "#Disable ipv6 for all interfaces
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6" = 1 >> /etc/sysctl.conf
   sysctl -p
