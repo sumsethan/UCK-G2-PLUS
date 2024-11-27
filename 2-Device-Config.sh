@@ -55,20 +55,6 @@ echo "$(date): Script started." >> 2-Device-Config.log
 #Update with static IP info.
 #*****************************
 [Match]
-Name = eth0
-[Address]
-#Address = 192.168.1.100/24
-[Route]
-#Gateway = 192.168.1.1
-[Network]
-DHCP = ipv4
-#DNS = 8.8.4.4 8.8.8.8" > /etc/systemd/network/eth0.network
-        echo "#*****************************
-#To set static IP change DHCP to no.
-#Uncomment #Address #Gateway #DNS.
-#Update with static IP info.
-#*****************************
-[Match]
 Name = eth1
 [Address]
 #Address = 192.168.1.217/24
@@ -76,6 +62,7 @@ Name = eth1
 #Gateway = 192.168.1.1
 [Network]
 DHCP = ipv4
+LLMNR = no
 #DNS = 8.8.4.4 8.8.8.8" > /etc/system/network/eth1.network
         read -p "$(echo '\n\033[0;106m'"\033[30mEnter static IP in 0.0.0.0/24 format (leave blank to keep DHCP):\033[0m ")" New_IP
           if [ -z "$New_IP" ]; then
@@ -204,13 +191,6 @@ LogLevel VERBOSE" >> /etc/ssh/sshd_config
           echo "
 LoginGraceTime 30" >> /etc/ssh/sshd_config
         fi
-        if grep -Fxq "LoginGraceTime 30" /etc/ssh/sshd_config
-        then
-          echo '\n\033[0;35m'"\033[1mLoginGraceTime 30 already exists.\033[0m"
-        else
-          echo "
-LoginGraceTime 30" >> /etc/ssh/sshd_config
-        fi
         sed -i 's|MaxAuthTries 6|MaxAuthTries 3|g' /etc/ssh/sshd_config
         if grep -Fxq "MaxSessions 1" /etc/ssh/sshd_config
         then
@@ -223,25 +203,29 @@ MaxSessions 1" >> /etc/ssh/sshd_config
         then
           echo '\033[0;35m'"\033[1mAllowTcpForwarding no already exists.\033[0m"
         else
-          sed -i 's|UseDNS no|UseDNS no\x0AAllowTcpForwarding no|g' /etc/ssh/sshd_config
+          echo "
+AllowTcpForwarding no" >> /etc/ssh/sshd_config
         fi
         if grep -Fxq "AllowAgentForwarding no" /etc/ssh/sshd_config
         then
           echo '\033[0;35m'"\033[1mAllowAgentForwarding no already exists.\033[0m"
         else
-          sed -i 's|UseDNS no|UseDNS no\x0AAllowAgentForwarding no|g' /etc/ssh/sshd_config
+          echo "
+AllowAgentForwarding no" >> /etc/ssh/sshd_config
         fi
         if grep -Fxq "Compression yes" /etc/ssh/sshd_config
         then
           echo '\033[0;35m'"\033[1mCompression yes already exists.\033[0m"
         else
-          sed -i 's|UseDNS no|UseDNS no\x0ACompression yes|g' /etc/ssh/sshd_config
+          echo "
+Compression yes" >> /etc/ssh/sshd_config
         fi
-        if grep -Fxq "DenyUsers ubnt root" /etc/ssh/sshd_config
+        if grep -Fxq "DenyUsers root" /etc/ssh/sshd_config
         then
           echo '\033[0;35m'"\033[1mDenyUsers already exists.\033[0m"
         else
-          sed -i 's|UseDNS no|UseDNS no\x0ADenyUsers ubnt root|g' /etc/ssh/sshd_config
+          echo "
+DenyUsers root" >> /etc/ssh/sshd_config
         fi
         if grep -Fxq "Port 22" /etc/ssh/sshd_config
         then
