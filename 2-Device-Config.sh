@@ -115,7 +115,7 @@ LLMNR = no
   sed -i "s|\[default=ignore\]|requisite|g" /etc/pam.d/common-password
   sed -i "s|pam_pwquality.so retry=3|pam_pwquality.so remember=99 use_authok|g" /etc/pam.d/common-password
   sed -i "s| pam_usermapper.so mapfile=/etc/security/usermap.conf|			pam_pwquality.so minlen=16 difok=3 ucredit=-1 lcredit=-2 dcredit=-2 ocredit=-2 retry=3 enforce_for_root|g" /etc/pam.d/common-password
-#Update root and ubnt user passwords, option to add sudo user
+#Update root user password, option to add sudo user
   echo '\033[0;106m'"\033[30mUpdate root user password (Must be at least 16 characters, contain 3 different characters vs current, 1 uppercase character, 2 lowercase characters, 2 numbers and 2 special characters.):\033[0m"
   passwd root
   while : ; do
@@ -247,9 +247,9 @@ if [ "\$SSH_CONNECTION" != "" ]; then
   readonly TMOUT
   export TMOUT
 fi" > /etc/profile.d/ssh-timeout.sh
-        #Set login limits for $New_User root and ubnt users
+        #Set login limits for $New_User and root user
           if [ -z "$New_User" ]; then
-            echo '\n\033[0;35m'"\033[1mNew sudo user was not setup, only adding login limits for root and ubnt users.\033[0m"
+            echo '\n\033[0;35m'"\033[1mNew sudo user was not setup, only adding login limits for root user.\033[0m"
           else
             if grep -q $New_User /etc/security/limits.conf;
             then
