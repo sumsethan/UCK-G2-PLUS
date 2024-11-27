@@ -17,5 +17,5 @@ sudo wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/2
 ```
 Download and run script to install tools:
 ```shell
-sudo wget https://raw.githubusercontent.com/meokgo/UC-CK/main/3-Install-Tools.sh && sudo chmod +x 3-Install-Tools.sh && sudo ./3-Install-Tools.sh
+sudo wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/3-Install-Tools.sh && sudo chmod +x 3-Install-Tools.sh && sudo ./3-Install-Tools.sh
 ```
