@@ -109,6 +109,7 @@ LLMNR = no
     echo "#Disable ipv6 for all interfaces
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6" = 1 >> /etc/sysctl.conf
+  fi
   sysctl -p
 #Update locale
   cp /etc/default/locale /etc/default/locale.bak
