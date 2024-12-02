@@ -70,47 +70,6 @@ deb-src https://deb.debian.org/debian bullseye-backports main contrib non-free" 
   sed -i "s|3.ubnt.pool.ntp.org ||g" /etc/systemd/timesyncd.conf
   systemctl restart systemd-timesyncd
   timedatectl
-#Free port 53 and 5355
-  cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.bak
-  echo "[Resolve]
-DNS = 1.1.1.1
-FallbackDNS = 8.8.8.8 8.8.4.4
-#Domains = 
-LLMNR = no
-#MulticastDNS = no
-#DNSSEC = no
-#DNSOverTLS = no
-#Cache = no
-DNSStubListener = no
-#ReadEtcHosts = yes" > /etc/systemd/resolved.conf
-  ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-  systemctl restart systemd-resolved
-  echo "#*****************************
-#To set static IP change DHCP to no.
-#Uncomment #Address #Gateway #DNS.
-#Update with static IP info.
-#*****************************
-[Match]
-Name = eth0
-[Address]
-#Address = 192.168.1.100/24
-[Route]
-#Gateway = 192.168.1.1
-[Network]
-DHCP = ipv4
-LLMNR = no
-#DNS = 8.8.4.4 8.8.8.8" > /etc/systemd/network/eth0.network
-  systemctl restart systemd-networkd
-#Disable ipv6
-  if grep -Fxq "#Disable ipv6 for all interfaces" /etc/sysctl.conf
-  then
-    echo '\n\033[0;35m'"\033[1mipv6 is already disabled.\033[0m"
-  else
-    echo "#Disable ipv6 for all interfaces
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6" = 1 >> /etc/sysctl.conf
-  fi
-  sysctl -p
 #Update locale
   cp /etc/default/locale /etc/default/locale.bak
   echo "LANG=C
@@ -189,6 +148,47 @@ exit 0' >> /etc/rc.local
   chmod +x /etc/rc.local
   systemctl daemon-reload
   systemctl start rc-local
+#Disable ipv6
+  if grep -Fxq "#Disable ipv6 for all interfaces" /etc/sysctl.conf
+  then
+    echo '\n\033[0;35m'"\033[1mipv6 is already disabled.\033[0m"
+  else
+    echo "#Disable ipv6 for all interfaces
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6" = 1 >> /etc/sysctl.conf
+  fi
+  sysctl -p
+#Free port 53 and 5355
+  cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.bak
+  echo "[Resolve]
+DNS = 1.1.1.1
+FallbackDNS = 8.8.8.8 8.8.4.4
+#Domains = 
+LLMNR = no
+#MulticastDNS = no
+#DNSSEC = no
+#DNSOverTLS = no
+#Cache = no
+DNSStubListener = no
+#ReadEtcHosts = yes" > /etc/systemd/resolved.conf
+  ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+  systemctl restart systemd-resolved
+  echo "#*****************************
+#To set static IP change DHCP to no.
+#Uncomment #Address #Gateway #DNS.
+#Update with static IP info.
+#*****************************
+[Match]
+Name = eth0
+[Address]
+#Address = 192.168.1.100/24
+[Route]
+#Gateway = 192.168.1.1
+[Network]
+DHCP = ipv4
+LLMNR = no
+#DNS = 8.8.4.4 8.8.8.8" > /etc/systemd/network/eth0.network
+  systemctl restart systemd-networkd
 #Option to run 2-Device-Config.sh
   while : ; do
     read -p "$(echo '\033[0;106m'"\033[30mRun 2-Device-Config.sh (set static IP, hostname, harden SSH, etc.)? (y/n)\033[0m ")" yn
