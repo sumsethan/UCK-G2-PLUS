@@ -54,7 +54,7 @@ setup_users ()
             else
               echo "
 #User alias for tldr update
-alias tldr-u='cd /home/$USER/.local/share/tldr/tldr && git pull origin main && cd -'" >> /home/$Tmux_User/.bashrc
+alias tldr-u='cd /home/$Tmux_User/.local/share/tldr/tldr && git pull origin main && cd -'" >> /home/$Tmux_User/.bashrc
             fi
             #Create user alias for ls to show more detail
             sed -i "s|alias ls='ls --color=auto'|alias ls='ls -hAlF --color=auto'|g" /home/$Tmux_User/.bashrc
