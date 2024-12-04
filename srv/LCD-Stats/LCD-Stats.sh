@@ -8,7 +8,7 @@
 #Information is displayed on the 160x60 LCD screen. Includes ability to play PNG frame video during boot up.
 #Install ImageMagick and Lm-Sensors.
 #--apt -y install imagemagick lm-sensors
-#Copy LCD-Stats.sh and Video folder to /srv/LCD-Stats/. Copy LCD-Stats.service to the folder /lib/systemd/system/ then run:
+#Copy LCD-Stats.sh and Video folder to /srv/LCD-Stats/. Copy LCD-Stats.service to /lib/systemd/system/ then run:
 #--systemctl daemon-reload && systemctl enable LCD-Stats.service
 
 #Turn LCD off then on and set brightness low (0-15).
