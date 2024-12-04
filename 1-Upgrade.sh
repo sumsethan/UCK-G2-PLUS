@@ -149,8 +149,11 @@ exit 0' >> /etc/rc.local
   systemctl daemon-reload
   systemctl start rc-local
 #Setup LCD-Stats
-  apt -y install imagemagick lm-sensors
+  apt -y install imagemagick lm-sensors git
   mkdir -p /srv/LCD-Stats/Video
+  git clone https://github.com/meokgo/UCK-G2-PLUS /var/tmp/LCD-Stats
+  mv /var/tmp/LCD-Stats/srv/LCD-Stats/Video/*.png /srv/LCD-Stats/Video
+  rm -r /var/tmp/LCD-Stats
   curl -o /srv/LCD-Stats/LCD-Stats.sh "https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/srv/LCD-Stats/LCD-Stats.sh"
   curl -o /lib/systemd/system/LCD-Stats.service "https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/lib/systemd/system/LCD-Stats.service"
   systemctl daemon-reload && systemctl enable LCD-Stats.service
