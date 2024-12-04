@@ -132,9 +132,9 @@ LLMNR = no
           if [ -L "/home/$New_User" ]; then
             echo "symlink /home/$New_User already exists"
           else
-            mkdir -p /srv/home
-            mv /home/$New_User /srv/home/$New_User
-            ln -s /srv/home/$New_User /home/$New_User
+            mkdir -p /data/home
+            mv /home/$New_User /data/home/$New_User
+            ln -s /data/home/$New_User /home/$New_User
           fi
           #Create user alias for ls to show more detail
           sed -i "s|alias ls='ls --color=auto'|alias ls='ls -hAlF --color=auto'|g" /home/$Tmux_User/.bashrc
