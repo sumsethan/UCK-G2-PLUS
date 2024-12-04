@@ -1,0 +1,8 @@
+[Unit]
+Description=LCD-Stats
+
+[Service]
+ExecStart=/bin/bash /srv/LCD-Stats/LCD-Stats.sh
+
+[Install]
+WantedBy=multi-user.target
