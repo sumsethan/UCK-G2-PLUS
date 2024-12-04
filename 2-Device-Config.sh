@@ -43,7 +43,7 @@ echo "$(date): Script started." >> 2-Device-Config.log
       echo '\n\033[0;35m'"\033[1mNot updating hostname.\033[0m"
     else
       hostnamectl set-hostname $New_Name --static
-      sed -i "s|UniFi-CloudKey|$New_Name|g" /etc/hosts
+      sed -i "s|UCK-G2-Plus|$New_Name.local $New_Name|g" /etc/hosts
     fi
 #Option to set static IP
   while : ; do
