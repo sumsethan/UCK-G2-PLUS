@@ -148,6 +148,12 @@ exit 0' >> /etc/rc.local
   chmod +x /etc/rc.local
   systemctl daemon-reload
   systemctl start rc-local
+#Setup LCD-Stats
+  apt -y install imagemagick lm-sensors
+  mkdir -p /srv/LCD-Stats/Video
+  curl -o /srv/LCD-Stats/LCD-Stats.sh "https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/srv/LCD-Stats/LCD-Stats.sh"
+  curl -o /lib/systemd/system/LCD-Stats.service "https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/lib/systemd/system/LCD-Stats.service"
+  systemctl daemon-reload && systemctl enable LCD-Stats.service
 #Disable ipv6
   if grep -Fxq "#Disable ipv6 for all interfaces" /etc/sysctl.conf
   then
