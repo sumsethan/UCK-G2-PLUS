@@ -123,17 +123,17 @@ if [ -L "/root/.local/share" ]; then
 else
   echo '\033[0;36m'"\033[1m$(date): Moving /root/.local/share directory using symlink...\033[0m"
   mkdir -p /root/.local/share
-  mkdir -p /srv/root/.local
-  mv /root/.local/share /srv/root/.local/share
-  ln -s /srv/root/.local/share /root/.local/share
+  mkdir -p /data/root/.local
+  mv /root/.local/share /data/root/.local/share
+  ln -s /data/root/.local/share /root/.local/share
 fi
 if [ -L "/root/.cache" ]; then
   echo "symlink /root/.cache already exists"
 else
   echo '\033[0;36m'"\033[1m$(date): Moving /root/.cache directory using symlink...\033[0m"
-  mkdir -p /srv/root/.cache
-  mv /root/.cache /srv/root/.cache
-  ln -s /srv/root/.cache /root/.cache
+  mkdir -p /data/root/.cache
+  mv /root/.cache /data/root/.cache
+  ln -s /data/root/.cache /root/.cache
 fi
 #Update tldr for root user
 tldr -u
