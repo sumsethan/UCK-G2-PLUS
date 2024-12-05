@@ -231,6 +231,7 @@ DenyUsers root" >> /etc/ssh/sshd_config
         if [ -z "$SSH_Port" ]; then
           echo "
 Port 22" >> /etc/ssh/sshd_config
+          SSH_Port=$(cat /etc/ssh/sshd_config | grep "^Port" | sed 's|Port ||g')
         else
           echo '\033[0;35m'"\033[1mPort $SSH_Port already exists.\033[0m"
         fi
