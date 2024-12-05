@@ -138,13 +138,13 @@ fi
 #Update tldr for root user
 tldr -u
 #Download tmux config file for root user
-wget -O /root/.tmux.conf https://raw.githubusercontent.com/meokgo/UC-CK/refs/heads/main/home/username/.tmux.conf
+wget -O /root/.tmux.conf https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.tmux.conf
 #Download btop config file for root user
 mkdir -p /root/.config/btop
-wget -O /root/.config/btop/btop.conf https://raw.githubusercontent.com/meokgo/UC-CK/refs/heads/main/home/username/.config/btop/btop.conf
+wget -O /root/.config/btop/btop.conf https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/btop/btop.conf
 #Download mc config files for root user
-wget -O /root/.config/mc/ini https://raw.githubusercontent.com/meokgo/UC-CK/refs/heads/main/home/username/.config/mc/ini
-wget -O /root/.config/mc/panels.ini https://raw.githubusercontent.com/meokgo/UC-CK/refs/heads/main/home/username/.config/mc/panels.ini
+wget -O /root/.config/mc/ini https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/ini
+wget -O /root/.config/mc/panels.ini https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/panels.ini
 setup_users
 #Option for Tailscale/Headscale initial setup
 while : ; do
