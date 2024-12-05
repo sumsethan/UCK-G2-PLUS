@@ -268,22 +268,6 @@ fi" > /etc/profile.d/ssh-timeout.sh
         fi
         /etc/init.d/ssh restart
         echo '\033[0;36m'"\033[1mSSH settings updated.\033[0m"
-        echo '\033[0;36m'"\033[1mInstalling ufw and creating firewall rule for SSH...\033[0m"
-        #Add firewall rules for SSH
-          DEBIAN_FRONTEND=noninteractive apt -y install ufw -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-          sed -i 's|IPV6=yes|IPV6=no|g' /etc/default/ufw
-        #Set UFW's default policies
-          ufw default deny incoming
-          ufw default allow outgoing
-        #Allow access to ports from LAN
-          SSH_PortA=$(cat /etc/ssh/sshd_config | grep "^Port" | sed 's|Port ||g')
-          echo '\033[0;36m'"\033[1mAdding rule for current SSH port:\033[0m "$SSH_PortA
-        #Get subnet from eth0 and pass to variable
-          LAN_IP=$(ip -f inet addr show eth0 | awk '/inet / {print $2}')
-          ufw allow from $LAN_IP to any port $SSH_PortA proto tcp comment 'SSH Port from LAN'
-        ufw --force enable
-        ufw status verbose
-        ufw reload
         break;;
       [nN]) echo '\n\033[0;35m'"\033[1mNot hardening SSH settings.\033[0m"
         break;;
