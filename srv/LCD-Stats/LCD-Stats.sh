@@ -43,7 +43,7 @@
       CPU=$(/usr/bin/top -bn1 | grep "Cpu(s)" | /bin/sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | /usr/bin/awk '{print 100 - $1"%"}')
       RAM=$(/usr/bin/free -m | /usr/bin/awk 'NR==2{printf "%.1f%%\n", $3*100/$2 }')
     #Get device temparture.
-      Temp=$(sensors pm8953_tz-virtual-0 -f | awk '$2+0 {print $2}')
+      Temp=$(sensors pm8953_tz-virtual-0 | awk '$2+0 {print $2}')
     #Get drive space.
       #1TB HDD
       Drive0=$(df -hl --output=size,used,target | grep /volume1)
@@ -86,7 +86,7 @@
         convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+21 "$Drive2" /srv/LCD-Stats/LCD-Stats.png
         DriveNum=0
       fi
-    convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+11 "Temp: $Temp°F" /srv/LCD-Stats/LCD-Stats.png
+    convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+11 "Temp: $Temp°C" /srv/LCD-Stats/LCD-Stats.png
     convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+1 "CPU: $CPU  RAM: $RAM" /srv/LCD-Stats/LCD-Stats.png
     #Display PNG file on LCD.
       ck-splash -s image -f /srv/LCD-Stats/LCD-Stats.png
