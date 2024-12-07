@@ -16,7 +16,7 @@
 (
 #Set timezone to CST
   echo '\033[0;36m'"\033[1m$(date): Setting timezone to CST...\033[0m"
-  timedatectl set-timezone America/Chicago
+  timedatectl set-timezone Asia/Shanghai
 echo "$(date): Script started." >> 1-Upgrade.log
 #Check if script is run as root
   echo '\033[0;36m'"\033[1mChecking if script is run as root...\033[0m"
@@ -50,14 +50,14 @@ echo "$(date): Script started." >> 1-Upgrade.log
   echo '\033[0;36m'"\033[1mDeleting old source list...\033[0m"
     rm /etc/apt/sources.list
   echo '\033[0;36m'"\033[1mCreating new source list...\033[0m"
-    echo "deb https://deb.debian.org/debian bullseye main contrib non-free
-deb-src https://deb.debian.org/debian bullseye main contrib non-free
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian bullseye main contrib non-free
+deb-src https://mirrors.tuna.tsinghua.edu.cn/debian bullseye main contrib non-free
 deb https://security.debian.org/debian-security bullseye-security main contrib non-free
 deb-src https://security.debian.org/debian-security/ bullseye-security main contrib non-free
-deb https://deb.debian.org/debian bullseye-updates main contrib non-free
-deb-src https://deb.debian.org/debian bullseye-updates main contrib non-free
-deb https://deb.debian.org/debian bullseye-backports main contrib non-free
-deb-src https://deb.debian.org/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list
+deb https://mirrors.tuna.tsinghua.edu.cn/debian bullseye-updates main contrib non-free
+deb-src https://mirrors.tuna.tsinghua.edu.cn/debian bullseye-updates main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian bullseye-backports main contrib non-free
+deb-src https://mirrors.tuna.tsinghua.edu.cn/debian bullseye-backports main contrib non-free" > /etc/apt/sources.list
   echo '\033[0;36m'"\033[1m$(date): Installing updates...\033[0m"
     apt update
     DEBIAN_FRONTEND=noninteractive apt -y upgrade --without-new-pkgs -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
