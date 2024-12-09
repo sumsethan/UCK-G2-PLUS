@@ -191,6 +191,8 @@ LogLevel VERBOSE" >> /etc/ssh/sshd_config
           echo "
 LoginGraceTime 30" >> /etc/ssh/sshd_config
         fi
+        sed -i 's|PermitRootLogin yes|PermitRootLogin no|g' /etc/ssh/sshd_config
+        sed -i 's|X11Forwarding yes|X11Forwarding no|g' /etc/ssh/sshd_config
         sed -i 's|MaxAuthTries 6|MaxAuthTries 3|g' /etc/ssh/sshd_config
         if grep -Fxq "MaxSessions 1" /etc/ssh/sshd_config
         then
