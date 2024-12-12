@@ -76,16 +76,7 @@ if ! [ $(id -u) = 0 ]; then
   echo '\033[0;31m'"\033[1mMust run script as root.\033[0m"
   exit 1
 fi
-while : ; do
-  read -p "$(echo '\033[0;106m'"\033[30mInstall tools? (y/n)\033[0m ")" yn
-  case $yn in
-    [yY]) echo '\n\033[0;36m'"\033[1m$(date): Starting install...\033[0m"
-      break;;
-    [nN]) echo '\033[0;35m'"\033[1mExiting...\033[0m";
-      exit;;
-    *) echo '\033[0;31m'"\033[1mInvalid response.\033[0m";
-  esac
-done
+echo '\n\033[0;36m'"\033[1m$(date): Starting install...\033[0m"
 #Add tailscale to repository
 curl -fsSL https://pkgs.tailscale.com/stable/debian/bullseye.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null && curl -fsSL https://pkgs.tailscale.com/stable/debian/bullseye.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list
 #Install tools
