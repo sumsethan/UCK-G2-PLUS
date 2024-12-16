@@ -24,7 +24,7 @@
 #Variable for font name.
   MyFont=Noto-Mono
 #Variable for device IP.
-  MyIP=$(hostname -I)
+  MyIP=$(hostname -I | awk '{print $1}')
 #Variable for hastname.
   Hostname=$(hostname)
 #Wait 5 seconds for device to boot before starting script.
