@@ -9,13 +9,13 @@ Scripts, fixes, updates, etc.
 <br/>
 Download and run combined upgrade script:
 ```Shell
-sudo wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/1-Upgrade.sh && sudo chmod +x 1-Upgrade.sh && sudo ./1-Upgrade.sh
+sudo wget https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/1-Upgrade.sh && sudo chmod +x 1-Upgrade.sh && sudo ./1-Upgrade.sh
 ```
 Download and run device configuration script:
 ```shell
-sudo wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/2-Device-Config.sh && sudo chmod +x 2-Device-Config.sh && sudo ./2-Device-Config.sh
+sudo wget https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/2-Device-Config.sh && sudo chmod +x 2-Device-Config.sh && sudo ./2-Device-Config.sh
 ```
 Download and run script to install tools:
 ```shell
-sudo wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/3-Install-Tools.sh && sudo chmod +x 3-Install-Tools.sh && sudo ./3-Install-Tools.sh
+sudo wget https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/3-Install-Tools.sh && sudo chmod +x 3-Install-Tools.sh && sudo ./3-Install-Tools.sh
 ```
