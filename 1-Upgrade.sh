@@ -10,7 +10,7 @@
 #|--Console Settings - Enable SSH                                                                     |
 #+----------------------------------------------------------------------------------------------------+
 #Default SSH user: root
-#Download script: sudo https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/1-Upgrade.sh
+#Download script: sudo https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/1-Upgrade.sh
 #Make script executable: sudo chmod +x 1-Upgrade.sh
 #Run script: sudo ./1-Upgrade.sh
 (
@@ -78,7 +78,7 @@ LC_ALL=C.UTF-8" > /etc/default/locale
 #Update motd
   rm /etc/update-motd.d/90-fwversion
   echo '\033[0;36m'"\033[1m$(date): Updating motd...\033[0m"
-  curl -o /etc/motd "https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/etc/motd"
+  curl -o /etc/motd "https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/etc/motd"
   echo '#!/bin/sh
 cat /etc/motd' > /etc/update-motd.d/10-motd
   mv /etc/update-motd.d/10-uname /etc/update-motd.d/20-uname
@@ -151,11 +151,11 @@ exit 0' >> /etc/rc.local
 #Setup LCD-Stats
   apt -y install imagemagick lm-sensors git
   mkdir -p /srv/LCD-Stats/Video
-  git clone https://github.com/meokgo/UCK-G2-PLUS /var/tmp/LCD-Stats
+  git clone https://github.com/sumsethan/UCK-G2-PLUS /var/tmp/LCD-Stats
   mv /var/tmp/LCD-Stats/srv/LCD-Stats/Video/*.png /srv/LCD-Stats/Video
   rm -r /var/tmp/LCD-Stats
-  curl -o /srv/LCD-Stats/LCD-Stats.sh "https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/srv/LCD-Stats/LCD-Stats.sh"
-  curl -o /lib/systemd/system/LCD-Stats.service "https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/lib/systemd/system/LCD-Stats.service"
+  curl -o /srv/LCD-Stats/LCD-Stats.sh "https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/srv/LCD-Stats/LCD-Stats.sh"
+  curl -o /lib/systemd/system/LCD-Stats.service "https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/lib/systemd/system/LCD-Stats.service"
   systemctl daemon-reload && systemctl enable LCD-Stats.service
 #Disable ipv6
   if grep -Fxq "#Disable ipv6 for all interfaces" /etc/sysctl.conf
@@ -202,7 +202,7 @@ LLMNR = no
   while : ; do
     read -p "$(echo '\033[0;106m'"\033[30mRun 2-Device-Config.sh (set static IP, hostname, harden SSH, etc.)? (y/n)\033[0m ")" yn
     case $yn in
-      [yY]) wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/2-Device-Config.sh && chmod +x 2-Device-Config.sh && ./2-Device-Config.sh
+      [yY]) wget https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/2-Device-Config.sh && chmod +x 2-Device-Config.sh && ./2-Device-Config.sh
         break;;
       [nN]) echo '\033[0;35m'"\033[1mNot running config.\033[0m";
         break;;
@@ -213,7 +213,7 @@ LLMNR = no
   while : ; do
     read -p "$(echo '\033[0;106m'"\033[30mRun 3-Install-tools.sh (install useful tools like tailscale, ncdu, iperf3, etc.)? (y/n)\033[0m ")" yn
     case $yn in
-      [yY]) wget https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/3-Install-Tools.sh && chmod +x 3-Install-Tools.sh && ./3-Install-Tools.sh
+      [yY]) wget https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/3-Install-Tools.sh && chmod +x 3-Install-Tools.sh && ./3-Install-Tools.sh
         break;;
       [nN]) echo '\033[0;35m'"\033[1mNot installing tools.\033[0m";
         break;;
