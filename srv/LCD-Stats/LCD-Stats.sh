@@ -8,7 +8,7 @@
 #Information is displayed on the 160x60 LCD screen. Includes ability to play PNG frame video during boot up.
 #Install ImageMagick and Lm-Sensors.
 #--apt -y install imagemagick lm-sensors
-#Copy LCD-Stats.sh and Video folder to /srv/LCD-Stats/. Copy LCD-Stats.service to /lib/systemd/system/ then run:
+#Copy LCD-Stats.sh and Video folder to /usr/local/LCD-Stats/. Copy LCD-Stats.service to /lib/systemd/system/ then run:
 #--systemctl daemon-reload && systemctl enable LCD-Stats.service
 
 #Turn LCD off then on and set brightness low (0-15).
@@ -30,7 +30,7 @@
 #Wait 5 seconds for device to boot before starting script.
   sleep 5s
 #Play video at boot.
-  for image in /srv/LCD-Stats/Video/*.png; do
+  for image in /usr/local/LCD-Stats/Video/*.png; do
     /sbin/ck-splash -f "$image"
     sleep 0.02s
   done
@@ -64,31 +64,31 @@
         LCDTime=0
       fi
     #Creat black PNG file using ImageMagick.
-      convert -size 160x60 xc:black /srv/LCD-Stats/LCD-Stats.png
+      convert -size 160x60 xc:black /usr/local/LCD-Stats/LCD-Stats.png
     #Toggle between Hostname and IP Address.
       if [ "$NameIP" != 1 ]; then
-        convert /srv/LCD-Stats/LCD-Stats.png -gravity north -undercolor black -fill white -font $MyFont -pointsize 14 -annotate +0+1 "$Hostname" /srv/LCD-Stats/LCD-Stats.png
+        convert /usr/local/LCD-Stats/LCD-Stats.png -gravity north -undercolor black -fill white -font $MyFont -pointsize 14 -annotate +0+1 "$Hostname" /usr/local/LCD-Stats/LCD-Stats.png
         NameIP=1
       else
-        convert /srv/LCD-Stats/LCD-Stats.png -gravity north -undercolor black -fill white -font $MyFont -pointsize 14 -annotate +0+1 "$MyIP" /srv/LCD-Stats/LCD-Stats.png
+        convert /usr/local/LCD-Stats/LCD-Stats.png -gravity north -undercolor black -fill white -font $MyFont -pointsize 14 -annotate +0+1 "$MyIP" /usr/local/LCD-Stats/LCD-Stats.png
         NameIP=0
       fi
     #Fill in the rest of the data.
-      convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+31 "Size  Used  Mount" /srv/LCD-Stats/LCD-Stats.png
+      convert /usr/local/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+31 "Size  Used  Mount" /usr/local/LCD-Stats/LCD-Stats.png
     #Toggle between three drive partitions (/volume1, /mnt/.rwfs, /data)
       if [ "$DriveNum" = 0 ]; then
-        convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+21 "$Drive0" /srv/LCD-Stats/LCD-Stats.png
+        convert /usr/local/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+21 "$Drive0" /usr/local/LCD-Stats/LCD-Stats.png
         DriveNum=1
       elif [ "$DriveNum" = 1 ]; then
-        convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+21 "$Drive1" /srv/LCD-Stats/LCD-Stats.png
+        convert /usr/local/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+21 "$Drive1" /usr/local/LCD-Stats/LCD-Stats.png
         DriveNum=2
       else
-        convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+21 "$Drive2" /srv/LCD-Stats/LCD-Stats.png
+        convert /usr/local/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+21 "$Drive2" /usr/local/LCD-Stats/LCD-Stats.png
         DriveNum=0
       fi
-    convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+11 "Temp: $Temp°C" /srv/LCD-Stats/LCD-Stats.png
-    convert /srv/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+1 "CPU: $CPU  RAM: $RAM" /srv/LCD-Stats/LCD-Stats.png
+    convert /usr/local/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+11 "Temp: $Temp°C" /usr/local/LCD-Stats/LCD-Stats.png
+    convert /usr/local/LCD-Stats/LCD-Stats.png -gravity south -undercolor black -fill white -font $MyFont -pointsize 8 -annotate +0+1 "CPU: $CPU  RAM: $RAM" /usr/local/LCD-Stats/LCD-Stats.png
     #Display PNG file on LCD.
-      ck-splash -s image -f /srv/LCD-Stats/LCD-Stats.png
+      ck-splash -s image -f /usr/local/LCD-Stats/LCD-Stats.png
     sleep 10s
   done
