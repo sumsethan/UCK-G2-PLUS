@@ -2,7 +2,7 @@
 Description=LCD-Stats
 
 [Service]
-ExecStart=/bin/bash /srv/LCD-Stats/LCD-Stats.sh
+ExecStart=/bin/bash /usr/local/LCD-Stats/LCD-Stats.sh
 
 [Install]
 WantedBy=multi-user.target
