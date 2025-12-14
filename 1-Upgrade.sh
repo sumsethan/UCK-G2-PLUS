@@ -150,11 +150,11 @@ exit 0' >> /etc/rc.local
   systemctl start rc-local
 #Setup LCD-Stats
   apt -y install imagemagick lm-sensors git
-  mkdir -p /srv/LCD-Stats/Video
+  mkdir -p /usr/local/LCD-Stats/Video
   git clone https://github.com/sumsethan/UCK-G2-PLUS /var/tmp/LCD-Stats
-  mv /var/tmp/LCD-Stats/srv/LCD-Stats/Video/*.png /srv/LCD-Stats/Video
+  mv /var/tmp/LCD-Stats/srv/LCD-Stats/Video/*.png /usr/local/LCD-Stats/Video
   rm -r /var/tmp/LCD-Stats
-  curl -o /srv/LCD-Stats/LCD-Stats.sh "https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/srv/LCD-Stats/LCD-Stats.sh"
+  curl -o /usr/local/LCD-Stats/LCD-Stats.sh "https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/srv/LCD-Stats/LCD-Stats.sh"
   curl -o /lib/systemd/system/LCD-Stats.service "https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/lib/systemd/system/LCD-Stats.service"
   systemctl daemon-reload && systemctl enable LCD-Stats.service
 #Disable ipv6
