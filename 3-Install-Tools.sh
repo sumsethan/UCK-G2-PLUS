@@ -1,6 +1,6 @@
 #!/bin/sh
 #This script will install some useful tools
-#Download script: sudo wget https://raw.githubusercontent.com/meokgo/UC-CK/main/3-Install-Tools.sh
+#Download script: sudo wget https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UC-CK/main/3-Install-Tools.sh
 #Make script executable: sudo chmod +x 3-Install-Tools.sh
 #Run script: sudo ./3-Install-Tools.sh
 
@@ -23,7 +23,7 @@ setup_users ()
             then
               echo '\033[0;35m'"\033[1mtmux config file already exists for $Tmux_User.\033[0m"
             else 
-              wget -O /home/$Tmux_User/.tmux.conf https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.tmux.conf
+              wget -O /home/$Tmux_User/.tmux.conf https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.tmux.conf
             fi
             #Download btop config file for $Tmux_User
             if grep -Fxq "#Updated meokgo" /home/$Tmux_User/.config/btop/btop.conf
@@ -31,7 +31,7 @@ setup_users ()
               echo '\033[0;35m'"\033[1mbtop config file already exists for $Tmux_User.\033[0m"
             else
               mkdir -p /home/$Tmux_User/.config/btop
-              wget -O /home/$Tmux_User/.config/btop/btop.conf https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/btop/btop.conf
+              wget -O /home/$Tmux_User/.config/btop/btop.conf https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.config/btop/btop.conf
             fi
             #Download mc config files for $Tmux_User
             if grep -Fxq "#Updated meokgo" /home/$Tmux_User/.config/mc/ini
@@ -39,13 +39,13 @@ setup_users ()
               echo '\033[0;35m'"\033[1mmc ini config file already exists for $Tmux_User.\033[0m"
             else
               mkdir -p /home/$Tmux_User/.config/mc
-              wget -O /home/$Tmux_User/.config/mc/ini https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/ini
+              wget -O /home/$Tmux_User/.config/mc/ini https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/ini
             fi
             if grep -Fxq "#Updated meokgo" /home/$Tmux_User/.config/mc/panels.ini
             then
               echo '\033[0;35m'"\033[1mmc panels.ini config file already exists for $Tmux_User.\033[0m"
             else
-              wget -O /home/$Tmux_User/.config/mc/panels.ini https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/panels.ini
+              wget -O /home/$Tmux_User/.config/mc/panels.ini https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/panels.ini
             fi
             #Create user alias for tldr update
             if grep -Fxq "#User alias for tldr update" /home/$Tmux_User/.bashrc
@@ -129,13 +129,13 @@ fi
 #Update tldr for root user
 tldr -u
 #Download tmux config file for root user
-wget -O /root/.tmux.conf https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.tmux.conf
+wget -O /root/.tmux.conf https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.tmux.conf
 #Download btop config file for root user
 mkdir -p /root/.config/btop
-wget -O /root/.config/btop/btop.conf https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/btop/btop.conf
+wget -O /root/.config/btop/btop.conf https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.config/btop/btop.conf
 #Download mc config files for root user
-wget -O /root/.config/mc/ini https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/ini
-wget -O /root/.config/mc/panels.ini https://raw.githubusercontent.com/meokgo/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/panels.ini
+wget -O /root/.config/mc/ini https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/ini
+wget -O /root/.config/mc/panels.ini https://ghproxy.net/https://raw.githubusercontent.com/sumsethan/UCK-G2-PLUS/refs/heads/main/home/username/.config/mc/panels.ini
 setup_users
 #Option for Tailscale/Headscale initial setup
 while : ; do
